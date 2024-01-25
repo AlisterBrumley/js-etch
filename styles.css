@@ -32,7 +32,6 @@ html {
 
 .mainContainer {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 98vh;
@@ -43,7 +42,29 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 100px;
-    min-height: 100px;
+    flex-direction: column;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 600px;
+    max-height: 600px;
     border-radius: 10px;
+    padding: 16px;
+}
+
+
+.gridRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /gap: 2px;
+    /padding: 1px;
+}
+
+.block {
+    background-color: var(--base3);
+    min-width: 5px;
+    min-height:5px;
+    max-width: 20px;
+    max-height: 20px;
+    border: var(--bg) solid 1px;
 }
