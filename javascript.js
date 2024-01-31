@@ -20,14 +20,13 @@ function drawGrid(gWidth, gSize) {
 
         // if at row end, append to container and create new row
         if (addBlock % gWidth === 0) {
-            gridContainer.appendChild(gridRow);
+            gridFragment.appendChild(gridRow);
             gridRow = document.createElement("div");
             gridRow.classList.add("gridRow")
         }
     };
-    
-    // TODO: use fragments to speed up
-    // Currently kinda breaky at 100
+
+    gridContainer.appendChild(gridFragment);
 }
 
 
