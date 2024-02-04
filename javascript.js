@@ -29,9 +29,9 @@ function drawGrid(gWidth) {
     // creating grid
     for (let addBlock = 1; addBlock <= gSize; addBlock++) {
         // creating blocks
-        const gBlock = document.createElement("div");
-        gBlock.classList.add("block");
-        gRow.appendChild(gBlock);
+        const gridBlock = document.createElement("div");
+        gridBlock.classList.add("block");
+        gRow.appendChild(gridBlock);
 
         // if at row end, append to container and create new row
         if (addBlock % gWidth === 0) {
@@ -60,31 +60,51 @@ function gBlockColor(block) {
 
 
 // MAIN FUNCTION RUN
-let gBlocks = drawGrid(gridWidth);
+let gridBlocks = drawGrid(gridWidth);
 
 
 // EVENT LISTENER
+
+//
+sizeButton.addEventListener("click", () => {
+    const newSize = prompt("new grid size?");
+    const gContainer = document.querySelector(".gridContainer");
+
+    gContainer.replaceChildren();
+
+    gridBlocks = drawGrid(newSize);
+
+    // TODO
+    // THIS WORKS BUT MIGHT PEFORM BAD
+    // try to callback from event listen or create function to contain a callback
+    gridBlocks.forEach((gridBlock) => {
+        gridBlock.addEventListener("mouseover", () => {
+            if (!colorEtch) {
+                gBlockEtch(gridBlock)
+            } else {
+                gBlockColor(gridBlock)
+            };
+        });
+    });
+})
+
 // Etching function
-gBlocks.forEach((gBlock) => {
-    gBlock.addEventListener("mouseover", () => {
+gridBlocks.forEach((gridBlock) => {
+    gridBlock.addEventListener("mouseover", () => {
         if (!colorEtch) {
-            gBlockEtch(gBlock)
+            gBlockEtch(gridBlock)
         } else {
-            gBlockColor(gBlock)
+            gBlockColor(gridBlock)
         };
     });
 });
 
-//
-sizeButton.addEventListener("click", () => {
-    let newSize = prompt("new grid size?");
-    // TODO add function that deletes old grid container/rows and maybe callsback to create new
-})
-
+// Switching to color/mono modes
 colorButton.addEventListener("click", () => {
     colorEtch = !colorEtch;
 })
 
+// Resetting page
 resetButton.addEventListener("click", () => {
     location.reload();
 });
