@@ -1,8 +1,7 @@
 // INITIAL VARIABLES
-const gWidth = 16;
+const gridWidth = 16;
 const sizeButton = document.querySelector(".sizeButton");
 const colorButton = document.querySelector(".colorButton");
-const resetButton = document.querySelector(".resetButton");
 const colorArray = ["--yellow",
     "--orange",
     "--red",
@@ -13,95 +12,73 @@ const colorArray = ["--yellow",
     "--green"
 ]
 let colorEtch = false;
-
-
+const resetButton = document.querySelector(".resetButton");
 
 
 // FUNCTIONS
 // Drawing grid
-function drawGrid(gridWidth) {
-    const gridSize = gridWidth ** 2;
-    const gridContainer = document.querySelector(".gridContainer");
-    const gridFragment = new DocumentFragment();
+function drawGrid(gWidth) {
+    const gSize = gWidth ** 2;
+    const gContainer = document.querySelector(".gridContainer");
+    const gFragment = new DocumentFragment();
 
     // creating initial row
-    let gridRow = document.createElement("div");
-    gridRow.classList.add("gridRow");
+    let gRow = document.createElement("div");
+    gRow.classList.add("gridRow");
 
     // creating grid
-    for (let addBlock = 1; addBlock <= gridSize; addBlock++) {
+    for (let addBlock = 1; addBlock <= gSize; addBlock++) {
         // creating blocks
-        const gridBlock = document.createElement("div");
-        gridBlock.classList.add("block");
-        gridRow.appendChild(gridBlock);
+        const gBlock = document.createElement("div");
+        gBlock.classList.add("block");
+        gRow.appendChild(gBlock);
 
         // if at row end, append to container and create new row
-        if (addBlock % gridWidth === 0) {
-            gridFragment.appendChild(gridRow);
-            gridRow = document.createElement("div");
-            gridRow.classList.add("gridRow");
+        if (addBlock % gWidth === 0) {
+            gFragment.appendChild(gRow);
+            gRow = document.createElement("div");
+            gRow.classList.add("gridRow");
         };
     };
 
-    gridContainer.appendChild(gridFragment);
+    gContainer.appendChild(gFragment);
 
     return document.querySelectorAll(".block");
 };
 
 // Coloring Blocks in default dark color
-function gridBlockEtch(block) {
+function gBlockEtch(block) {
     block.style.backgroundColor = "var(--base03)";
 };
 
 // Coloring Blocks in alternative colors
-function gridBlockColor(block) {
-    const randomInt = Math.floor(Math.random() * colorArray.length)
-    const randomColor = colorArray[randomInt]
+function gBlockColor(block) {
+    const randomInt = Math.floor(Math.random() * colorArray.length);
+    const randomColor = colorArray[randomInt];
     block.style.backgroundColor = `var(${randomColor})`;
 };
 
-// Creating a form for resizing
-function gridSizeForm(sizeDiv) {
-    const sizeForm = document.createElement("input")
-    sizeForm.type = "text"
-    sizeForm.classList.add("form")
-    sizeDiv.appendChild(sizeForm)
-    // TODO
-    // keep button at width during form
-    // close form and return to old width
-    // maybe another func?
-}
-
-// TODO
-/*
-    function/event to take form input
-    round to 16-100 
-    resize button to normal
-    resize grid
-*/
-
 
 // MAIN FUNCTION RUN
-let gridBlocks = drawGrid(gWidth);
+let gBlocks = drawGrid(gridWidth);
 
 
 // EVENT LISTENER
 // Etching function
-gridBlocks.forEach((gridBlock) => {
-    gridBlock.addEventListener("mouseover", () => {
+gBlocks.forEach((gBlock) => {
+    gBlock.addEventListener("mouseover", () => {
         if (!colorEtch) {
-            gridBlockEtch(gridBlock)
+            gBlockEtch(gBlock)
         } else {
-            gridBlockColor(gridBlock)
+            gBlockColor(gBlock)
         };
     });
 });
 
+//
 sizeButton.addEventListener("click", () => {
-    const sizeDiv = document.querySelector(".sizeDiv")
-    if (sizeDiv.children.length < 2) {
-        gridSizeForm(sizeDiv)
-    }
+    let newSize = prompt("new grid size?");
+    // TODO add function that deletes old grid container/rows and maybe callsback to create new
 })
 
 colorButton.addEventListener("click", () => {

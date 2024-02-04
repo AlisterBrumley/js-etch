@@ -69,18 +69,6 @@ html {
     transition-duration: 100ms;
 }
 
-.form {
-    background-color: var(--base1);
-    color: var(--bg);
-    border: none;
-    border-radius: 6px;
-    width: 75px;
-    height: 60px;
-    outline: none;
-    font-size: larger;
-    text-align: center;
-}
-
 .buttonContainer,
 .endContainer {
     flex: 1;
