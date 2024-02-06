@@ -16,7 +16,6 @@ const resetButton = document.querySelector(".resetButton");
 
 
 // FUNCTIONS
-// Drawing grid
 function drawGrid(gWidth) {
     const gSize = gWidth ** 2;
     const gContainer = document.querySelector(".gridContainer");
@@ -28,12 +27,12 @@ function drawGrid(gWidth) {
 
     // creating grid
     for (let addBlock = 1; addBlock <= gSize; addBlock++) {
-        // creating blocks
+        // creating blocks and appending to row
         const gridBlock = document.createElement("div");
         gridBlock.classList.add("block");
         gRow.appendChild(gridBlock);
 
-        // if at row end, append to container and create new row
+        // if at row end, append to container fragment and create new row
         if (addBlock % gWidth === 0) {
             gFragment.appendChild(gRow);
             gRow = document.createElement("div");
@@ -41,63 +40,69 @@ function drawGrid(gWidth) {
         };
     };
 
+    // appending container fragments to container element
     gContainer.appendChild(gFragment);
 
     return document.querySelectorAll(".block");
 };
 
 // Coloring Blocks in default dark color
-function gBlockEtch(block) {
-    block.style.backgroundColor = "var(--base03)";
+function gBlockEtch(gBlock) {
+    gBlock.style.backgroundColor = "var(--base03)";
 };
 
 // Coloring Blocks in alternative colors
-function gBlockColor(block) {
+function gBlockColor(gBlock) {
     const randomInt = Math.floor(Math.random() * colorArray.length);
     const randomColor = colorArray[randomInt];
-    block.style.backgroundColor = `var(${randomColor})`;
+    gBlock.style.backgroundColor = `var(${randomColor})`;
 };
+
+// Etching in both color and mono
+function etcher(gBlocks) {
+    gBlocks.forEach((gBlock) => {
+        gBlock.addEventListener("mouseover", () => {
+            if (!colorEtch) {
+                gBlockEtch(gBlock)
+            } else {
+                gBlockColor(gBlock)
+            };
+        });
+    });
+}
+
+// Creating new grid
+function drawNewGrid() {
+    const newSize = parseInt(prompt("new grid size?"));
+
+    if (!Number.isInteger(newSize)) {
+        alert("size must be input with numbers only!")
+        return
+    } else if (newSize < 16 || newSize > 100) {
+        alert("size must be between 16 and 100!")
+        return
+    }
+
+    const gContainer = document.querySelector(".gridContainer");
+
+    // deleting old grid
+    gContainer.replaceChildren();
+
+    // creating new grid and reinitializing event listener
+    gridBlocks = drawGrid(newSize);
+    etcher(gridBlocks);
+}
 
 
 // MAIN FUNCTION RUN
 let gridBlocks = drawGrid(gridWidth);
+etcher(gridBlocks);
 
-
-// EVENT LISTENER
-
-//
+// EVENT LISTENERS
+// Size button
 sizeButton.addEventListener("click", () => {
-    const newSize = prompt("new grid size?");
-    const gContainer = document.querySelector(".gridContainer");
-
-    gContainer.replaceChildren();
-
-    gridBlocks = drawGrid(newSize);
-
-    // TODO
-    // THIS WORKS BUT MIGHT PEFORM BAD
-    // try to callback from event listen or create function to contain a callback
-    gridBlocks.forEach((gridBlock) => {
-        gridBlock.addEventListener("mouseover", () => {
-            if (!colorEtch) {
-                gBlockEtch(gridBlock)
-            } else {
-                gBlockColor(gridBlock)
-            };
-        });
-    });
+    drawNewGrid()
 })
-
-// Etching function
-gridBlocks.forEach((gridBlock) => {
-    gridBlock.addEventListener("mouseover", () => {
-        if (!colorEtch) {
-            gBlockEtch(gridBlock)
-        } else {
-            gBlockColor(gridBlock)
-        };
-    });
-});
 
 // Switching to color/mono modes
 colorButton.addEventListener("click", () => {
