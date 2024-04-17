@@ -110,5 +110,5 @@ html {
     background-color: var(--base3);
     width: 100%;
     height: 100%;
-    border: black solid 1px;
+    border: var(--backgroundHL) solid 1px;
 }
