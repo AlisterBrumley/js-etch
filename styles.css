@@ -16,17 +16,28 @@
     --cyan: #2aa198;
     --green: #859900;
 
-    --text: var(--base0);
-    --textHL: var(--base1);
-    --textLL: var(--base01);
-    --bg: var(--base03);
-    --bgHL: var(--base02);
+    --text: var(--base00);
+    --textHL: var(--base01);
+    --textLL: var(--base1);
+    --background: var(--base3);
+    --backgroundHL: var(--base2);
 }
 
 html {
     font-family: Verdana, Arial, sans-serif;
-    background-color: var(--bg);
+    background-color: var(--background);
     color: var(--text);
+}
+
+/* resetting vars for dark */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: var(--base0);
+        --textHL: var(--base1);
+        --textLL: var(--base01);
+        --background: var(--base03);
+        --backgroundHL: var(--base02);
+    }
 }
 
 
@@ -35,7 +46,6 @@ html {
     justify-content: space-between;
     align-items: center;
     min-height: 98vh;
-
 }
 
 .buttonContainer {
@@ -47,7 +57,7 @@ html {
 
 .btn {
     color: var(--textHL);
-    background-color: var(--bgHL);
+    background-color: var(--backgroundHL);
     border: none;
     border-radius: 6px;
     width: 75px;
@@ -58,14 +68,14 @@ html {
 
 .btn:hover {
     background-color: var(--textLL);
-    color: var(--bg);
+    color: var(--background);
     width: 100px;
     transition-duration: 250ms;
 }
 
 .btn:active {
-    background-color: var(--base1);
-    color: var(--bg);
+    background-color: var(--textHL);
+    color: var(--background);
     transition-duration: 100ms;
 }
 
@@ -75,7 +85,7 @@ html {
 }
 
 .gridContainer {
-    background-color: var(--bgHL);
+    background-color: var(--backgroundHL);
     display: flex;
     justify-content: center;
     align-items: center;
